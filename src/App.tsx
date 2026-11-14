@@ -1,0 +1,86 @@
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { useMemo, useState } from 'react';
+import { AmbianceSection } from './components/AmbianceSection';
+import { Footer } from './components/Footer';
+import { GallerySection } from './components/GallerySection';
+import { Hero } from './components/Hero';
+import { LocationSection } from './components/LocationSection';
+import { MenuSection } from './components/MenuSection';
+import { Navbar } from './components/Navbar';
+import { OrderDrawer } from './components/OrderDrawer';
+import { ReservationSection } from './components/ReservationSection';
+import { MENU_ITEMS } from './data/cafeConfig';
+import { calculateVerifiedOrder, INPUT_LIMITS } from './utils/security';
+
+const VALID_ITEM_IDS = new Set(MENU_ITEMS.map((item) => item.id));
+
+export default function App() {
+  const [cart, setCart] = useState<Record<string, number>>({});
+  const [fulfillment, setFulfillment] = useState<'delivery' | 'pickup'>('delivery');
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const handleUpdateQuantity = (itemId: string, nextQty: number) => {
+    if (!VALID_ITEM_IDS.has(itemId)) return;
+    const safeQty = Math.floor(nextQty);
+    setCart((prev) => {
+      const updated = { ...prev };
+      if (!Number.isFinite(safeQty) || safeQty <= 0) {
+        delete updated[itemId];
+      } else {
+        updated[itemId] = Math.min(safeQty, INPUT_LIMITS.maxItemQuantity);
+      }
+      return updated;
+    });
+  };
+
+  const handleClearCart = () => {
+    setCart({});
+  };
+
+  const orderSummary = useMemo(
+    () => calculateVerifiedOrder(cart, fulfillment),
+    [cart, fulfillment],
+  );
+
+  return (
+    <div className="min-h-screen overflow-x-hidden bg-[#FAF9F7] text-[#1C1917]">
+      <Navbar
+        cartCount={orderSummary.totalCount}
+        onOpenOrderDrawer={() => setDrawerOpen(true)}
+      />
+
+      <main>
+        <Hero />
+        <MenuSection
+          cart={cart}
+          summary={orderSummary}
+          fulfillment={fulfillment}
+          onFulfillmentChange={setFulfillment}
+          onUpdateQuantity={handleUpdateQuantity}
+          onClearCart={handleClearCart}
+          onOpenMobileDrawer={() => setDrawerOpen(true)}
+        />
+        <AmbianceSection />
+        <GallerySection />
+        <ReservationSection />
+        <LocationSection />
+      </main>
+
+      <Footer />
+
+      <OrderDrawer
+        isOpen={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        summary={orderSummary}
+        fulfillment={fulfillment}
+        onFulfillmentChange={setFulfillment}
+        onUpdateQuantity={handleUpdateQuantity}
+        onClearCart={handleClearCart}
+      />
+    </div>
+  );
+}
