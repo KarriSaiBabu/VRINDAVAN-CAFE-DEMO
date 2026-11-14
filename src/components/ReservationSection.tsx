@@ -24,7 +24,11 @@ interface ReservationErrors {
   partySize?: string;
 }
 
-export function ReservationSection() {
+interface ReservationSectionProps {
+  onNavigate: (path: string) => void;
+}
+
+export function ReservationSection({ onNavigate }: ReservationSectionProps) {
   const [guestName, setGuestName] = useState('');
   const [guestPhone, setGuestPhone] = useState('');
   const [dateIso, setDateIso] = useState(getTodayIsoDate);
@@ -344,6 +348,34 @@ export function ReservationSection() {
                       className="mt-1.5 min-h-[44px] w-full rounded-lg border border-[#1C1917]/15 bg-white px-3.5 py-2 text-sm text-[#1C1917] placeholder:text-[#A8A29E] focus:border-[#1B3B2B] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B3B2B]/25"
                     />
                   </div>
+
+                  <p className="text-xs leading-relaxed text-[#57534E]">
+                    By continuing, you consent to share your name, phone number, and reservation
+                    details with {CAFE_INFO.name} via WhatsApp to process your table request. See
+                    our{' '}
+                    <a
+                      href="/privacy-policy"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        onNavigate('/privacy-policy');
+                      }}
+                      className="font-medium text-[#1B3B2B] underline underline-offset-2"
+                    >
+                      Privacy Policy
+                    </a>{' '}
+                    and{' '}
+                    <a
+                      href="/terms"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        onNavigate('/terms');
+                      }}
+                      className="font-medium text-[#1B3B2B] underline underline-offset-2"
+                    >
+                      Terms
+                    </a>
+                    .
+                  </p>
 
                   <button
                     type="submit"

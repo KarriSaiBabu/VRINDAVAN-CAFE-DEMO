@@ -11,6 +11,7 @@ interface OrderDrawerProps {
   onFulfillmentChange: (next: 'delivery' | 'pickup') => void;
   onUpdateQuantity: (itemId: string, nextQty: number) => void;
   onClearCart: () => void;
+  onNavigate: (path: string) => void;
 }
 
 export function OrderDrawer({
@@ -21,6 +22,7 @@ export function OrderDrawer({
   onFulfillmentChange,
   onUpdateQuantity,
   onClearCart,
+  onNavigate,
 }: OrderDrawerProps) {
   useEffect(() => {
     if (!isOpen) return;
@@ -67,6 +69,10 @@ export function OrderDrawer({
           onFulfillmentChange={onFulfillmentChange}
           onUpdateQuantity={onUpdateQuantity}
           onClearCart={onClearCart}
+          onNavigate={(path) => {
+            onClose();
+            onNavigate(path);
+          }}
           idPrefix="drawer"
         />
 

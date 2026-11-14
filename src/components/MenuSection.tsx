@@ -16,6 +16,7 @@ interface MenuSectionProps {
   onUpdateQuantity: (itemId: string, nextQty: number) => void;
   onClearCart: () => void;
   onOpenMobileDrawer: () => void;
+  onNavigate: (path: string) => void;
 }
 
 export function MenuSection({
@@ -26,6 +27,7 @@ export function MenuSection({
   onUpdateQuantity,
   onClearCart,
   onOpenMobileDrawer,
+  onNavigate,
 }: MenuSectionProps) {
   const [activeCategory, setActiveCategory] = useState<'All' | MenuCategory>('All');
   const [searchQuery, setSearchQuery] = useState('');
@@ -219,6 +221,7 @@ export function MenuSection({
               onFulfillmentChange={onFulfillmentChange}
               onUpdateQuantity={onUpdateQuantity}
               onClearCart={onClearCart}
+              onNavigate={onNavigate}
               idPrefix="desktop"
             />
           </aside>

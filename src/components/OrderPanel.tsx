@@ -26,6 +26,7 @@ interface OrderPanelProps {
   onFulfillmentChange: (next: 'delivery' | 'pickup') => void;
   onUpdateQuantity: (itemId: string, nextQty: number) => void;
   onClearCart: () => void;
+  onNavigate: (path: string) => void;
   idPrefix?: string;
 }
 
@@ -42,6 +43,7 @@ export function OrderPanel({
   onFulfillmentChange,
   onUpdateQuantity,
   onClearCart,
+  onNavigate,
   idPrefix = 'desktop',
 }: OrderPanelProps) {
   const [customerName, setCustomerName] = useState('');
@@ -404,6 +406,33 @@ export function OrderPanel({
             {errors.cart}
           </p>
         )}
+
+        <p className="text-xs leading-relaxed text-[#57534E]">
+          By continuing, you consent to share your name, phone number, and order details with{' '}
+          {CAFE_INFO.name} via WhatsApp to fulfill your request. See our{' '}
+          <a
+            href="/privacy-policy"
+            onClick={(e) => {
+              e.preventDefault();
+              onNavigate('/privacy-policy');
+            }}
+            className="font-medium text-[#1B3B2B] underline underline-offset-2"
+          >
+            Privacy Policy
+          </a>{' '}
+          and{' '}
+          <a
+            href="/terms"
+            onClick={(e) => {
+              e.preventDefault();
+              onNavigate('/terms');
+            }}
+            className="font-medium text-[#1B3B2B] underline underline-offset-2"
+          >
+            Terms
+          </a>
+          .
+        </p>
 
         <button
           type="submit"

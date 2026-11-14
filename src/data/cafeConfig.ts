@@ -58,6 +58,10 @@ export const CAFE_INFO = Object.freeze({
   googleMapsUrl: 'https://maps.app.goo.gl/XA5t87T4ZS8ToCBYA',
   deliveryFeeInr: 40,
   freeDeliveryThresholdInr: 600,
+  fssaiNumber: 'Pending Owner FSSAI Registration No.',
+  gstinNumber: 'Unregistered / Update if GST Applicable',
+  demoDisclosure:
+    'Pre-launch / sample menu preview: confirm final dish availability, prices, and FSSAI details directly with the cafe owner via WhatsApp.',
   hours: Object.freeze<CafeHourRow[]>([
     { days: 'Monday – Friday', time: '7:30 AM – 10:00 PM' },
     { days: 'Saturday – Sunday', time: '7:00 AM – 10:30 PM' },

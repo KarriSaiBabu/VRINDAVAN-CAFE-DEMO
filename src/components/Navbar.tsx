@@ -5,17 +5,18 @@ import { CAFE_INFO } from '../data/cafeConfig';
 interface NavbarProps {
   cartCount: number;
   onOpenOrderDrawer: () => void;
+  onNavigate: (path: string) => void;
 }
 
 const NAV_LINKS = [
-  { label: 'Menu', href: '#menu' },
-  { label: 'Ambiance', href: '#ambiance' },
-  { label: 'Gallery', href: '#gallery' },
-  { label: 'Reserve', href: '#reserve' },
-  { label: 'Location', href: '#location' },
+  { label: 'Menu', href: '/#menu' },
+  { label: 'Ambiance', href: '/#ambiance' },
+  { label: 'Gallery', href: '/#gallery' },
+  { label: 'Reserve', href: '/#reserve' },
+  { label: 'Location', href: '/#location' },
 ];
 
-export function Navbar({ cartCount, onOpenOrderDrawer }: NavbarProps) {
+export function Navbar({ cartCount, onOpenOrderDrawer, onNavigate }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -23,7 +24,11 @@ export function Navbar({ cartCount, onOpenOrderDrawer }: NavbarProps) {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-8 px-4 sm:px-6 lg:px-8">
         {/* Zone 1: Single-element brand wordmark */}
         <a
-          href="#top"
+          href="/"
+          onClick={(e) => {
+            e.preventDefault();
+            onNavigate('/');
+          }}
           className="font-display text-xl font-semibold tracking-tight text-[#1C1917] whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1B3B2B]"
         >
           {CAFE_INFO.name}
@@ -38,6 +43,10 @@ export function Navbar({ cartCount, onOpenOrderDrawer }: NavbarProps) {
             <a
               key={link.href}
               href={link.href}
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate(link.href);
+              }}
               className="py-1 whitespace-nowrap shrink-0 transition-colors duration-150 hover:text-[#1C1917] hover:underline hover:underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1B3B2B]"
             >
               {link.label}
@@ -85,7 +94,11 @@ export function Navbar({ cartCount, onOpenOrderDrawer }: NavbarProps) {
               <a
                 key={link.href}
                 href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setMobileMenuOpen(false);
+                  onNavigate(link.href);
+                }}
                 className="flex min-h-[44px] items-center text-base font-medium text-[#1C1917] transition-colors hover:text-[#1B3B2B]"
               >
                 {link.label}
